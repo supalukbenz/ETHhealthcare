@@ -6,7 +6,13 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {      
-      modalShow: false
+      modalShow: false,
+      detail: null,
+      courseName: null,
+      category: null,
+      doctorName: null,
+      hospitalName: null,
+      datetimeAppoint: null
     }
   }
 
@@ -50,21 +56,19 @@ class Main extends Component {
                   <td>{new Date(course.datetimeAppoint*1000).toLocaleString('default', { hour: '2-digit', minute: '2-digit' })}</td>
                   <td><Button
                     className='button-table'
-                    onClick={ () => this.setState({ modalShow: true }) }
+                    onClick={() => this.setState(
+                      { 
+                        modalShow: true,
+                        detail: course.detail,
+                        courseName: course.courseName,
+                        category: course.category,
+                        doctorName: course.doctorName,
+                        hospitalName: course.hospitalName,
+                        datetimeAppoint: course.datetimeAppoint
+                      }
+                      )}
                     >Detail
-                    </Button>
-                    <ModalDetail
-                    show={this.state.modalShow}
-                    onHide={addModalClose}
-                    courses={this.props.courses} 
-                    account={this.props.account}
-                    detail={course.detail}
-                    name={course.courseName}
-                    doctor = {course.doctorName}
-                    hospital = {course.hospitalName}
-                    datetime={course.datetimeAppoint}
-                    category={course.category}
-                    />                    
+                    </Button>                                       
                    </td>
                   <td>
                     { !course.purchased ? 
@@ -81,12 +85,21 @@ class Main extends Component {
                       : null
                     }                                    
                   </td>                  
-                </tr>
-                
+                </tr>                
               )
             })}            
           </tbody>
-        </table>               
+        </table>
+        <ModalDetail
+        show={this.state.modalShow}
+        onHide={addModalClose}
+        detail={this.state.detail}
+        courseName={this.state.courseName}
+        doctorName = {this.state.doctorName}
+        hospitalName = {this.state.hospitalName}
+        datetimeAppoint={this.state.datetimeAppoint}
+        category={this.state.category}
+        />                
       </div>
     );
   }
