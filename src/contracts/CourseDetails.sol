@@ -9,7 +9,7 @@ contract CourseDetails {
     uint id;
     string courseName;
     address payable owner;
-    string category;
+    string emailCustomer;
     string detail;
     string doctorName;
     string hospitalName;
@@ -22,7 +22,7 @@ contract CourseDetails {
     uint id,
     string courseName,
     address payable owner,
-    string category,
+    string emailCustomer,
     string detail,
     string doctorName,
     string hospitalName,
@@ -35,7 +35,7 @@ contract CourseDetails {
     uint id,
     string courseName,
     address payable owner,
-    string category,
+    string emailCustomer,
     string detail,
     string doctorName,
     string hospitalName,
@@ -50,7 +50,7 @@ contract CourseDetails {
 
   function createCourse(
     string memory _courseName,
-    string memory _category,
+    
     string memory _detail,
     string memory _doctorName,
     string memory _hospitalName,
@@ -58,7 +58,7 @@ contract CourseDetails {
     uint _price) public {
 
     require(bytes(_courseName).length > 0);
-    require(bytes(_category).length > 0);
+    
     require(bytes(_detail).length > 0);
     require(bytes(_doctorName).length > 0);
     require(bytes(_hospitalName).length > 0);
@@ -70,7 +70,7 @@ contract CourseDetails {
       courseCount,
       _courseName,
       msg.sender,
-      _category,
+      "",
       _detail,
       _doctorName,
       _hospitalName,
@@ -82,7 +82,7 @@ contract CourseDetails {
       courseCount,
       _courseName,
       msg.sender,
-      _category,
+      "",
       _detail,
       _doctorName,
       _hospitalName,
@@ -92,7 +92,7 @@ contract CourseDetails {
     );
   }
 
-  function purchaseCourse(uint _id) public payable {
+  function purchaseCourse(uint _id, string memory _emailCustomer) public payable {
 
     Course memory _course = courses[_id];
     address payable _seller  = _course.owner;
@@ -102,6 +102,7 @@ contract CourseDetails {
     require(!_course.purchased);
     require(_seller != msg.sender);
 
+    _course.emailCustomer =_emailCustomer;
     _course.owner = msg.sender; //transfer ownership to buyer
     _course.purchased = true; 
     courses[_id] = _course; //update product
@@ -112,7 +113,7 @@ contract CourseDetails {
       courseCount,
       _course.courseName,
       msg.sender,
-      _course.category,
+      _course.emailCustomer,
       _course.detail,
       _course.doctorName,
       _course.hospitalName,

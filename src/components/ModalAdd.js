@@ -4,20 +4,6 @@ import detail_logo from '../images/detail-logo.png';
 import addcourse_img from '../images/addcourse-img.png'
 
 class ModalAdd extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      startDate: new Date(),
-      tomorow: new Date().getDate+1,
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    })
-  }
   render() {   
     return (
       <div>
@@ -38,7 +24,7 @@ class ModalAdd extends Component {
             <form onSubmit={(event) => {
               event.preventDefault()
               const courseName = this.courseName.value
-              const category = this.category.value
+              
               const detail = this.detail.value
               const doctorName = this.doctorName.value
               const hospitalName = this.hospitalName.value
@@ -48,7 +34,7 @@ class ModalAdd extends Component {
               const coursePrice = window.web3.utils.toWei(this.coursePrice.value.toString(), 'Ether')
               this.props.createCourse(
                 courseName,
-                category,
+                
                 detail,
                 doctorName,
                 hospitalName,
@@ -101,16 +87,7 @@ class ModalAdd extends Component {
                   required />
               </div>
               <div className="form-row">
-                <div className="form-group col-md-6">
-                <label htmlFor="inputAddress" className='form-title'>Category</label>
-                  <input
-                    id="category"
-                    type="text"
-                    ref={(input) => { this.category = input }}
-                    className="form-control"
-                    placeholder="Course category"
-                    required />
-                </div>
+                
                 <div className="form-group col-md-6">
                 <label htmlFor="inputAddress" className='form-title'>Price</label>
                   <input

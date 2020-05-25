@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
-import PatientRecord from '../abis/PatientRecord.json';
-import BuyerDetails from '../abis/BuyerDetails.json';
 import CourseDetails from '../abis/CourseDetails.json';
 import Main from './Main';
 import ModalAdd from './ModalAdd';
@@ -13,8 +11,11 @@ import { Button } from 'react-bootstrap';
 class App extends Component {
 
   async componentWillMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
+    await this.loadWeb3()     
+    await this.loadBlockchainData()     
+    window.ethereum.on('accountsChanged', function (accounts) {        
+      window.location.reload(false);                     
+    });   
   }  
 
   async loadWeb3() {   
@@ -29,20 +30,26 @@ class App extends Component {
     // Non-dapp browsers
     else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
+    }    
   }
+
 
   async loadBlockchainData() {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })     
+    this.setState({ account: accounts[0] })         
     const networkId = await web3.eth.net.getId()
-    const networkData = CourseDetails.networks[networkId]
+    const networkData = CourseDetails.networks[networkId]    
+  
     if(networkData) {
-      const courseDetails = web3.eth.Contract(CourseDetails.abi, networkData.address)      
+      const courseDetails = web3.eth.Contract(CourseDetails.abi, networkData.address)            
+      
       this.setState({ courseDetails })
+      
       const courseCount = await courseDetails.methods.courseCount().call()
+
       this.setState({ courseCount })
+      
       //load
       for(var i = 1; i <= courseCount; i++){
         const course = await courseDetails.methods.courses(i).call()
@@ -50,7 +57,8 @@ class App extends Component {
           courses: [...this.state.courses, course]
         })
       }
-      this.setState({ loading: false })
+
+      this.setState({ loading: false })      
       
     } else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
@@ -63,16 +71,19 @@ class App extends Component {
       account: '',
       courseCount: 0,
       courses: [],
+
       loading: true,
       modalShow: false
     }
     this.createCourse = this.createCourse.bind(this)
     this.purchaseCourse = this.purchaseCourse.bind(this)
+    
   }
 
   showModal = () => {
     this.setState({ show: true });
   };
+  
 
   hideModal = () => {
     this.setState({ show: false });
@@ -82,11 +93,11 @@ class App extends Component {
     window.location.reload(false);
   }
 
-  createCourse(courseName, category, detail, doctorName, hospitalName, dateAppoint, price) {
+  createCourse(courseName, detail, doctorName, hospitalName, dateAppoint, price) {
     this.setState({ loading: true })
     this.state.courseDetails.methods.createCourse(
       courseName,
-      category,
+      
       detail,
       doctorName,
       hospitalName,
@@ -98,9 +109,10 @@ class App extends Component {
     })    
   }
 
-  purchaseCourse(id, price) {
+
+  purchaseCourse(id, price, emailCustomer) {
     this.setState({ loading: true })
-    this.state.courseDetails.methods.purchaseCourse(id).send({ from: this.state.account, value: price }).on('confirmation', (reciept) => {
+    this.state.courseDetails.methods.purchaseCourse(id, emailCustomer).send({ from: this.state.account, value: price }).on('confirmation', (reciept) => {
       this.setState({ loading: false })
       this.refreshPage()
     }) 
@@ -114,7 +126,7 @@ class App extends Component {
         <img src={nav_logo} alt='ethospital_logo' className="img-nav"/>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-              <small className="text-white"><span id="account">{this.props.account}</span></small>
+              <small className="text-white"><span id="account">{this.state.account}</span></small>
             </li>
             {(() => {
               if(this.state.account === '0x7442D61968fc495A0c99509DD32CDc51bB657311'){
@@ -145,10 +157,13 @@ class App extends Component {
           <div className="row">            
             <main role="main" className="col-lg-12 d-flex text-center main-table">            
               { this.state.loading 
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div> 
+                ? <div id="loader" className="text-center">
+                    <p className="text-center">Loading...</p>
+                    <div className="spinner-border text-info"></div>
+                  </div> 
                 : <Main 
                   courses={this.state.courses} 
-                  account={this.state.account}
+                  account={this.state.account}                  
                   createCourse={this.createCourse}
                   purchaseCourse={this.purchaseCourse}/> 
               }                          
