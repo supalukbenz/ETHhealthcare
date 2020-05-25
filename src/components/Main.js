@@ -119,21 +119,12 @@ class Main extends Component {
         datetimeAppoint={this.state.datetimeAppoint}
         
         />   
-{/* 
-        <ModalBuyer
-        show={this.state.modalBuyShow}
-        onHide={buyModalClose} 
-        courseId={this.state.courseId}
-        courseName={this.state.courseName}
-        createBuyer={this.props.createBuyer}
-        purchaseCourse={this.props.purchaseCourse}
-        /> */}
 
       <Modal
           {...this.props}
           show={this.state.modalBuyShow}
           onHide={buyModalClose} 
-          size="lg"
+          width="200px"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -156,22 +147,18 @@ class Main extends Component {
               
             }}>
         
-
-              <div className="form-row">                
-
-                <div className="form-group col-md-6">
-                  <label htmlFor="inputAddress" className='form-title'>Email</label>
-                  <input
-                    id="email"
-                    type="text"
-                    ref={(input) => { this.email = input }}
-                    className="form-control"
-                    placeholder="Email"
-                    required />
-                </div>
-              </div>                              
+              <div className="form-group mr-sm-2">
+                <label htmlFor="inputAddress" className='form-title'>Email</label>
+                <input
+                  id="email"
+                  type="text"
+                  ref={(input) => { this.email = input }}
+                  className="form-control"
+                  placeholder="Email"
+                  required />
+              </div>                             
               <div className="d-flex justify-content-center">
-                <button type="submit" className="btn button-add-course button-modal-course" 
+                <button type="submit" className="btn button-add-course button-modal-course button-buyer" 
                 onClick={this.state.onHide}>Submit</button>
 
               </div>                                    

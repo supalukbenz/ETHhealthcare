@@ -3,8 +3,10 @@ import { Modal, Button, Row, Col, Form} from 'react-bootstrap';
 import detail_logo from '../images/detail-logo.png';
 import addcourse_img from '../images/addcourse-img.png'
 
-class ModalAdd extends Component {
+
+class ModalAdd extends Component {  
   render() {   
+    let checkValidate = false;
     return (
       <div>
         <Modal
@@ -21,7 +23,7 @@ class ModalAdd extends Component {
           <Modal.Body>
             <div className="container">
             <img src={addcourse_img} alt='ethospital_logo' className="img-nav img-detail"/>              
-            <form onSubmit={(event) => {
+            <form class="needs-validation" novalidate onSubmit={(event) => {
               event.preventDefault()
               const courseName = this.courseName.value
               
@@ -29,6 +31,9 @@ class ModalAdd extends Component {
               const doctorName = this.doctorName.value
               const hospitalName = this.hospitalName.value
               const datetime = this.dateAppoint.value +' '+ this.timeAppoint.value
+              if(courseName && detail && doctorName && hospitalName && this.dateAppoint.value && this.timeAppoint.value ) {
+                checkValidate = true;
+              }
               const datetimeAppoint = new Date(datetime).getTime()/1000
 
               const coursePrice = window.web3.utils.toWei(this.coursePrice.value.toString(), 'Ether')

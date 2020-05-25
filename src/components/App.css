@@ -74,6 +74,7 @@
   background-color: #43d3e8;
   border-color: #43d3e8;
   font-size: 13px;
+  font-weight: 500;
 }
 
 .modal-detail-category {
@@ -150,4 +151,16 @@
 
 .modal-detail-hospital {
   font-size: 14px;  
+}
+
+.button-buyer {
+  background-color: #66e387;
+  border-color: #66e387;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.button-buyer:hover {  
+  background-color: #2f7040;
+  border-color: #2f7040;
 }
