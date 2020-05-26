@@ -86,23 +86,34 @@ class Main extends Component {
                     </Button>                                       
                    </td>
                    <td>
-                   { !course.purchased ?  
-                     <Button
-                      className='button-table button-buyer'
-                      purchaseCourse={this.props.purchaseCourse}
-                      onClick={() => this.setState(
-                        { 
-                          courseId: course.id,
-                          courseName: course.courseName,
-                          modalBuyShow: true,
-                          price: course.price,
-
-                          purchaseCourse: this.props.purchaseCourse
-                        }
-                      )}
-                    >Buy</Button>
-                    : null
-                    }  
+                   {(() => {
+                      if(this.props.account !== this.props.admin){
+                        console.log('account: ', this.state.account);
+                        console.log(this.props.admin);
+                        return(
+                          !course.purchased ?  
+                            <Button
+                             className='button-table button-buyer'
+                             purchaseCourse={this.props.purchaseCourse}
+                             onClick={() => this.setState(
+                               { 
+                                 courseId: course.id,
+                                 courseName: course.courseName,
+                                 modalBuyShow: true,
+                                 price: course.price,
+       
+                                 purchaseCourse: this.props.purchaseCourse
+                               }
+                             )}
+                           >Buy</Button>
+                           : null                           
+                        )
+                      } else {
+                        return(
+                          null
+                        )
+                      }
+                    })()}                   
                     </td>                            
                 </tr>                
               )

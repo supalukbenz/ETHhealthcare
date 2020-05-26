@@ -4,10 +4,15 @@ import './App.css';
 import CourseDetails from '../abis/CourseDetails.json';
 import Main from './Main';
 import ModalAdd from './ModalAdd';
+import Footer from './Footer';
 import ethospital_logo from '../images/ethospital-logo.png';
 import nav_logo from '../images/nav-logo.png';
+import pulse_img from '../images/pulse.png';
+import pulse2_img from '../images/pulse2.png';
 import { Button } from 'react-bootstrap';
 
+
+const admin = '0x7442D61968fc495A0c99509DD32CDc51bB657311';
 class App extends Component {
 
   async componentWillMount() {
@@ -37,7 +42,8 @@ class App extends Component {
   async loadBlockchainData() {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })         
+    this.setState({ account: accounts[0] })    
+    this.setState({ admin: admin })     
     const networkId = await web3.eth.net.getId()
     const networkData = CourseDetails.networks[networkId]    
   
@@ -58,7 +64,7 @@ class App extends Component {
         })
       }
 
-      this.setState({ loading: false })      
+      this.setState({ loading: false })            
       
     } else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
@@ -71,7 +77,7 @@ class App extends Component {
       account: '',
       courseCount: 0,
       courses: [],
-
+      admin: '',
       loading: true,
       modalShow: false
     }
@@ -129,7 +135,7 @@ class App extends Component {
               <small className="text-white"><span id="account">{this.state.account}</span></small>
             </li>
             {(() => {
-              if(this.state.account === '0x7442D61968fc495A0c99509DD32CDc51bB657311'){
+              if(this.state.account === this.state.admin){
                 return(
                 <Button            
                 className='button-add-course'
@@ -163,13 +169,19 @@ class App extends Component {
                   </div> 
                 : <Main 
                   courses={this.state.courses} 
-                  account={this.state.account}                  
+                  account={this.state.account} 
+                  admin={this.state.admin}                 
                   createCourse={this.createCourse}
                   purchaseCourse={this.purchaseCourse}/> 
               }                          
             </main>
           </div>
-        </div>        
+        </div>
+        <div>
+          <img src={pulse2_img} alt='ethospital_logo' className="img-nav img-pulse img-pulse-black"/>
+          <img src={pulse_img} alt='ethospital_logo' className="img-nav img-pulse img-pulse-green"/>          
+        </div>  
+        <Footer/>      
       </div>
     );
   }

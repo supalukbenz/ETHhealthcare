@@ -30,7 +30,7 @@ class ModalDetail extends Component {
             <Modal.Title id="contained-modal-title-vcenter">
               <img src={detail_logo} alt='ethospital_logo' className="img-nav img-detail"/>              
               <div className='modal-detail-name'>{this.props.courseName}</div>
-              <div className='modal-detail-category'>Category: {this.props.category}</div>
+              
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className='modal-body'>

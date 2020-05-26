@@ -164,3 +164,63 @@
   background-color: #2f7040;
   border-color: #2f7040;
 }
+
+.footer{
+  background: #333a3b;
+  color:#ffffff;
+  padding-top: 20px;
+  font-size: 12px;
+  margin-top: 100px;
+}
+
+.a-links {
+  color: white;
+  transition: color .2s;
+}
+
+
+.links ul{
+  list-style-type: none;
+}
+
+.copyright p{
+  border-top: 1px solid rgba(255,255,255,.1);
+  
+} 
+
+.copyright-p {
+  color: #ffffff;
+}
+
+.location{
+  font-size: 12px;
+}
+
+.about-company{
+  text-align: center;
+} 
+
+.img-pulse-green {
+  float: right;
+}
+
+.img-footer {
+  width: auto;
+  height: 180px;
+  padding-top: 20px;
+}
+
+.person-icon {
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.tel-footer {
+  margin-bottom: 10px;
+}
+
+.img-pulse {
+  margin-top: 50px;
+}
